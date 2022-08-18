@@ -1,10 +1,14 @@
 import React from 'react'
 import SocialLogin from '../../components/SocialLogin';
+import { exceptionHandler, sharedSetUser, toast } from '../../utils';
 import { auth } from '../../firebase';
-import { exceptionHandler, toast } from '../../utils';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { IS_DEV } from '../../configs';
+import logo from '../../assets/images/logo-square.svg';
 
-export default () => {
-    const userPayload = React.useRef({ email: '', password: '', confirmPassword: '' });
+const DEV_EMAIL = 'mudassir.stack147@gmail.com';
+const SignUp = () => {
+    const userPayload = React.useRef({ email: IS_DEV ? DEV_EMAIL : '', password: IS_DEV ? 'test123' : '', confirmPassword: IS_DEV ? 'test123' : '' });
 
     const onChange = (e) => {
         e.preventDefault();
@@ -19,8 +23,13 @@ export default () => {
             const user = userPayload.current;
             console.log(user);
             if (user.password !== user.confirmPassword) return toast.info('Passwords do not match!');
-            await auth.sendSignInLinkToEmail(user.email, { url: 'http://localhost:3000/user/signin', handleCodeInApp: true });
-            toast.info('A verification link has been sent to your email!')
+            const res = await createUserWithEmailAndPassword(auth, user.email, user.password);
+            console.log('[onSignup].res', res);
+            toast.info('You are registered successfully!');
+            sharedSetUser(res.user);
+            // await sendSignInLinkToEmail(auth, user.email, { url: 'https://locally-c0c85.web.app/app/dashboard', handleCodeInApp: true });
+            // window.localStorage.setItem('emailForSignIn', user.email);
+            // toast.info('A verification link has been sent to your email!')
         } catch (error) {
             exceptionHandler(error)
         }
@@ -34,7 +43,7 @@ export default () => {
                         <div className="min-vh-100 row">
                             <div className="d-flex align-items-center col-xl-5 col-lg-6 col-md-8">
                                 <div className="w-100 py-5 px-md-5 px-xxl-6 position-relative">
-                                    <div className="mb-4"><img src="assets/images/logo-square.svg" alt="..." style={{ maxWidth: '4rem' }} className="img-fluid mb-3" />
+                                    <div className="mb-4"><img src={logo} alt="..." style={{ maxWidth: '4rem' }} className="img-fluid mb-3" />
                                         <h2>Sign up</h2>
                                         <p className="text-muted">His room, a proper human room although a little too small, lay
                                             peacefully between its four familiar walls. A collection of textile samples lay
@@ -42,10 +51,10 @@ export default () => {
                                     </div>
                                     <form className="form-validate">
                                         <div className="mb-4"><label className="form-label" htmlFor="loginUsername">Email
-                                            Address</label><input type="email" name="loginUsername" placeholder="name@address.com" autoComplete="off" required id="email" className="form-control" onChange={onChange} /></div>
-                                        <div className="mb-4"><label className="form-label" htmlFor="loginPassword">Password</label><input type="email" name="password" placeholder="Password" required id="password" className="form-control" onChange={onChange} /></div>
+                                            Address</label><input defaultValue={userPayload.current.email} type="email" name="loginUsername" placeholder="name@address.com" autoComplete="off" required id="email" className="form-control" onChange={onChange} /></div>
+                                        <div className="mb-4"><label className="form-label" htmlFor="loginPassword">Password</label><input type="password" defaultValue={userPayload.current.password} name="password" placeholder="Password" required id="password" className="form-control" onChange={onChange} /></div>
                                         <div className="mb-4"><label className="form-label" htmlFor="loginPassword2">Confirm your
-                                            password</label><input type="email" name="loginPassword2" placeholder="Password" required id="confirmPassword" className="form-control" onChange={onChange} /></div>
+                                            password</label><input type="password" name="loginPassword2" defaultValue={userPayload.current.confirmPassword} placeholder="Password" required id="confirmPassword" className="form-control" onChange={onChange} /></div>
                                         {/* <div className="mb-4"><label className="form-label" htmlFor="loginPassword2"> Sign Up As :
                                         </label>
                                             <input type="radio" id="html" name="fav_language" defaultValue="HTML" />
@@ -53,7 +62,7 @@ export default () => {
                                             &nbsp; <input type="radio" id="css" name="fav_language" defaultValue="CSS" />
                                             &nbsp; <label htmlFor="css"> Seller </label>
                                         </div> */}
-                                        <div className="d-grid"><button type="button" className="btn btn-primary btn-lg" onClick={onSignup}>Sign
+                                        <div className="d-grid"><button type="button" className="btn btn-primary btn-lg" onClick={onSignup} >Sign
                                             up</button></div>
                                     </form>
                                     <SocialLogin />
@@ -1545,3 +1554,4 @@ export default () => {
 
     )
 }
+export default SignUp;

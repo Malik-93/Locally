@@ -3,8 +3,29 @@ import SocialLogin from '../../components/SocialLogin';
 import {
     useNavigate
 } from "react-router-dom";
-export default () => {
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { IS_DEV } from '../../configs';
+import { sharedSetUser } from '../../utils';
+import { auth } from '../../firebase';
+import logo from '../../assets/images/logo-square.svg';
+const DEV_EMAIL = 'mudassir.stack147@gmail.com';
+const Login = () => {
+    const userPayload = React.useRef({ email: IS_DEV ? DEV_EMAIL : '', password: IS_DEV ? 'test123' : '' });
     const navigate = useNavigate();
+    const onChange = (e) => {
+        e.preventDefault();
+        console.log(e.target.id);
+        userPayload.current = {
+            ...userPayload.current,
+            [e.target.id]: e.target.value
+        }
+    }
+    const onLogin = async () => {
+        const res = await signInWithEmailAndPassword(auth, userPayload.current.email, userPayload.current.password);
+        console.log('[onLogin].res', res);
+        sharedSetUser(res.user);
+
+    }
     return (
         <div id="__next" data-reactroot>
             <div style={{ paddingTop: 0 }}>
@@ -13,28 +34,29 @@ export default () => {
                         <div className="min-vh-100 row">
                             <div className="d-flex align-items-center col-xl-5 col-lg-6 col-md-8">
                                 <div className="w-100 py-5 px-md-5 px-xl-6 position-relative">
-                                    <div className="mb-5"><img src={require('../../assets/images/logo-square.svg')} alt="..." style={{ maxWidth: '4rem' }} className="img-fluid mb-3" />
+                                    <div className="mb-5">
+                                        <img src={logo} alt="..." style={{ maxWidth: '4rem' }} className="img-fluid mb-3" />
                                         <h2>Welcome back</h2>
                                     </div>
                                     <form className="form-validate">
                                         <div className="mb-4"><label className="form-label" htmlFor="loginUsername">Email
-                                            Address</label><input type="email" name="loginUsername" placeholder="name@address.com" autoComplete="off" required id="loginUsername" className="form-control" /></div>
+                                            Address</label><input type="email" defaultValue={userPayload.current.email} name="loginUsername" placeholder="name@address.com" autoComplete="off" required id="email" className="form-control" onChange={onChange} /></div>
                                         <div className="mb-4">
                                             <div className="row">
-                                                <div className="col"><label className="form-label" htmlFor="loginPassword">Password</label></div>
-                                                <div className="col-auto"><a href="#" className="form-text small text-primary">Forgot password?</a></div>
-                                            </div><input type="email" name="loginPassword" placeholder="Password" required id="loginPassword" className="form-control" />
+                                                <div className="col"><label className="form-label" htmlFor="loginPassword" defaultValue={IS_DEV ? 'test123' : ''}>Password</label></div>
+                                                {/* <div className="col-auto"><a href="#" className="form-text small text-primary">Forgot password?</a></div> */}
+                                            </div><input type="password" name="loginPassword" placeholder="Password" required id="password" defaultValue={userPayload.current.password} className="form-control" onChange={onChange} />
                                         </div>
-                                        <div className="mb-4">
+                                        {/* <div className="mb-4">
                                             <div className="text-muted form-check"><input type="checkbox" name="loginRemember" id="loginRemember" className="form-check-input" /><label title='' htmlFor="loginRemember" className="form-check-label"><span className="text-sm">Remember me for 30 days</span></label></div>
-                                        </div>
-                                        <div className="d-grid"><button type="button" className="btn btn-primary btn-lg">Sign
+                                        </div> */}
+                                        <div className="d-grid"><button type="button" className="btn btn-primary btn-lg" onClick={onLogin}>Sign
                                             in</button></div>
                                     </form>
                                     <SocialLogin />
                                     <hr className="my-4" />
                                     <p className="text-center"><small className="text-muted text-center">Don't have an account
-                                        yet? <a href="javascript:void()" onClick={() => navigate('/user/signup')}>Sign Up</a></small></p><a className="close-absolute me-md-5 me-xl-6 pt-5" href="/"><svg className="svg-icon w-3rem h-3rem">
+                                        yet? <a href="#" onClick={() => navigate('/user/signup')}>Sign Up</a></small></p><a className="close-absolute me-md-5 me-xl-6 pt-5" href="/"><svg className="svg-icon w-3rem h-3rem">
                                             <use xlinkHref="#close-1" />
                                         </svg></a>
                                 </div>
@@ -1518,3 +1540,4 @@ export default () => {
 
     )
 }
+export default Login;

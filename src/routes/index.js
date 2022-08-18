@@ -27,7 +27,7 @@ const AppRoutes = () => {
         if (Object.keys(currentUser).length) {
             navigate('/app/dashboard')
         }
-        else navigate('/user/login')
+        // else navigate('/user/login')
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser])
     return (

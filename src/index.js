@@ -7,6 +7,8 @@ import { appStore } from './redux/store';
 import { Provider } from 'react-redux';
 import './assets/style.css';
 import './_next/static/css/346b7eacf5f167bf.css';
+import { BrowserRouter } from "react-router-dom";
+
 
 // import './_next/static/chunks/webpack-dc13a6d4d019931c.js';
 // import './_next/static/chunks/framework-568b840ecff66744.js';
@@ -29,7 +31,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={appStore}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

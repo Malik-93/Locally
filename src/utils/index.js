@@ -33,6 +33,7 @@ export const sharedSignout = async () => {
     }
 }
 export const exceptionHandler = (exeption) => {
-    console.log('exeption', exeption)
-    console.log('StringifyException', JSON.stringify(exeption))
+    console.log('exeption', exeption);
+    console.log('StringifyException', JSON.stringify(exeption));
+    toast.info(JSON.stringify(exeption))
 }
