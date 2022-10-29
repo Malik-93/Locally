@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+// import './App.css';
 import AppRoutes from './routes';
 import { auth, db } from './firebase';
 import { sharedSetUser } from './utils';
@@ -75,7 +75,7 @@ function App() {
           });
       } else {
         sharedSetUser({});
-        navigate('/user/login');
+        navigate('/home');
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

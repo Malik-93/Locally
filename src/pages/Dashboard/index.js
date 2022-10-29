@@ -1,14 +1,15 @@
 import React from 'react'
 import { sharedSignout } from '../../utils'
-export default () => {
+import Home from '../Home/Home'
+
+export default ({isLogin}) => {
     console.log("Dashbaord")
     return (
-        <div>
+        <>
+            <Home isLogin={isLogin}/>
             <div>
-                Dashbaord
+                <button onClick={sharedSignout}>Logout</button>
             </div>
-            <button onClick={sharedSignout}>Logout</button>
-            {/* <button onClick={() => window.open(process.env.NODE_ENV === 'development' ? 'http://localhost:3001/' : 'https://locally-chat-e829d.web.app/', '_blank').focus()}>Chat</button> */}
-        </div>
+        </>
     )
 }

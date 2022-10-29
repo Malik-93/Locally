@@ -8,7 +8,9 @@ import {
 } from "react-router-dom";
 import { useAppSelector } from '../hooks/store.hook';
 import Dashboard from '../pages/Dashboard';
+import Home from '../pages/Home/Home';
 import Landing from '../pages/Landing';
+import Profile from '../pages/Profile/Profile';
 import Login from '../pages/registration/Login';
 import Signup from '../pages/registration/Signup';
 const ProtectedRoute = ({ user, children }) => {
@@ -33,10 +35,12 @@ const AppRoutes = () => {
     return (
         <Routes>
             <Route index element={<Landing />} />
-            <Route path="/user/Signup" element={<Signup />} />
-            <Route path="/user/login" element={<Login />} />
+            <Route path="/home" element={<Home />} />
+            {/* <Route path="/user/Signup" element={<Signup />} />
+            <Route exact path="/user/login" element={<Login />} /> */}
             <Route element={<ProtectedRoute user={currentUser} />}>
-                <Route path='/app/dashboard' element={<Dashboard />} />
+                <Route path='/app/dashboard' element={<Dashboard isLogin={currentUser}/>} />
+                <Route path='/app/profile' element={<Profile isLogin={currentUser} />} />
             </Route>
         </Routes>
     )
