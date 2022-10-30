@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import appStore from '../../assets/images/assets/app-store.png'
 import googleStore from '../../assets/images/assets/google-play.png'
 
@@ -30,7 +31,7 @@ const Footer = () => {
                             <aside className="footer__top__nav">
                                 <h3>Company</h3>
                                 <ul>
-                                    <li><a title="About Us" href>About Us</a></li>
+                                    <li> <Link to='/about'> About Us</Link> </li>
                                     <li><a title="Blog" href>Blog</a></li>
                                     <li><a title="Faqs" href>Faqs</a></li>
                                     <li><a title="Contact" href>Contact</a></li>

@@ -65,6 +65,7 @@ const openSearch = (type) =>{
 
   return (
     <>
+    
      <header className="site-header">
         <div className="container-fluid">
             <div className="row">
@@ -97,7 +98,7 @@ const openSearch = (type) =>{
                                                 <Link to='/'>Home</Link>                                                 
                                             </li>
                                             <li>
-                                                <a href="#" title="Listings"> About Locally </a>
+                                                <Link to='/about'> About Locally</Link>  
                                             </li>
                                             <li>
                                                 <a href="#" title="Listings"> Listing </a>
@@ -139,7 +140,7 @@ const openSearch = (type) =>{
                                     <a href="#" title="Demos"> Home </a>
                                 </li>
                                 <li>
-                                    <a href="#" title="Listings"> About Locally </a>
+                                    <Link to='/about'> About Locally</Link>  
                                 </li>
                                 <li>
                                     <a href="#" title="Listings"> Listing </a>

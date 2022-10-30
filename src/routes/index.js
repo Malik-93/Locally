@@ -7,6 +7,7 @@ import {
     useNavigate
 } from "react-router-dom";
 import { useAppSelector } from '../hooks/store.hook';
+import About from '../pages/About/About';
 import Dashboard from '../pages/Dashboard';
 import Home from '../pages/Home/Home';
 import Landing from '../pages/Landing';
@@ -36,6 +37,7 @@ const AppRoutes = () => {
         <Routes>
             <Route index element={<Landing />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/about" element={<About />} />
             {/* <Route path="/user/Signup" element={<Signup />} />
             <Route exact path="/user/login" element={<Login />} /> */}
             <Route element={<ProtectedRoute user={currentUser} />}>
